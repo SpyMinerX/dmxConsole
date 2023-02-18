@@ -63,6 +63,7 @@
             if (err) {
                 console.log(err)
             } else {
+                console.log(row)
                 if(row != null){
                     ipc.send('goto', 'main')
                 } else {
