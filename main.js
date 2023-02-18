@@ -5,7 +5,7 @@ const updater = require('electron-simple-updater');
 let sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(__dirname + '/data/database.db');
 db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER);');
-db.run('IF NOT EXISTS(SELECT * FROM users WHERE username = "root") THEN INSERT INTO users (username, password, permission) VALUES ("root", "Password", 10); END IF;');
+db.run('INSERT INTO users (username, password, permission) SELECT ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)', ['root', 'Password', 10, 'root']);
 db.close();
 let window;
 
