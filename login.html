@@ -56,35 +56,15 @@
     </body>
     <script>
         let $ = require('jquery')
-        let fs = require('fs')
-        let path = require('path')
-        let filename = path.join(__dirname, '/data/users.db');
-        const ipc = require('electron').ipcRenderer;
-
-        $('#btn-login').on('click', () => {
-         
-            if(fs.existsSync(filename)) {
-            let data = fs.readFileSync(filename, 'utf8').split('\n')
-            
-
-            data.forEach((authorities, index) => {
-                let [ user, password ] = authorities.split(',')
-                console.log(user)
-                console.log(password)
-                let [name1,usr]=user.split(':')
-                let [name2,pass]=password.split(':')
-
-                let txtUser=$('#txtUsr').val();
-                let txtPwd=$('#txtPwd').val();
-
+        let sqlite3 = require('sqlite3').verbose();
+        const db = new sqlite3.Database('./data/database.db');
+        const ipc = require('electron').ipcRenderer
+        db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER)')
+/* 
                 if(txtUser==usr && txtPwd==pass){
                     ipc.sendSync('gotomenue', 'main')
                 } else {
                     $('#lbl').text('username or password is incorrect')
-                }
-                })
-            }
-
-        }) 
+                } */
 </script>
 </html>
