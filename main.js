@@ -36,7 +36,7 @@ app.on('ready', () => {
     },
   });
 
-  loadingWindow.loadFile('index.html');
+  loadingWindow.loadFile('loading.html');
 });
 
 function ipcSend(event, ...args) {
