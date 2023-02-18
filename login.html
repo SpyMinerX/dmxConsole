@@ -64,7 +64,7 @@
                 console.log(err)
             } else {
                 if(row != null){
-                    ipc.sendSync('gotomenue', 'main')
+                    ipc.send('goto', 'main')
                 } else {
                     $('#lbl').text('username or password is incorrect')
                 }

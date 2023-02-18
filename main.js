@@ -30,7 +30,7 @@ ipcMain.handle('checkForUpdates', () => { updater.checkForUpdates(); });
 ipcMain.handle('downloadUpdate', () => { updater.downloadUpdate(); });
 ipcMain.handle('quitAndInstall', () => { updater.quitAndInstall(); });
 ipcMain.handle('setOption', (_, opt, val) => { updater.setOptions(opt, val); });
-ipcMain.on('gotomenue', (event, arg) => {
+ipcMain.on('goto', (event, arg) => {
   if(arg=='main')
   {
     window.loadFile('index.html');
