@@ -2,6 +2,10 @@ const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const fs = require('fs');
 const updater = require('electron-simple-updater');
+let sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./data/database.db');
+db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER)');
+db.run('insert into users (username, password, permission) values ("root", "Password", 10) if not exists');
 let window;
 
 updater.init({
@@ -13,16 +17,7 @@ updater.init({
   },
 });
 
-var dataPath = __dirname + '/data';
 
-if (fs.existsSync(dataPath)) {
-  const stats = fs.statSync(path.join(dataPath, 'users.db'));
-}
-else {
-  fs.mkdirSync(dataPath);
-  fs.writeFileSync(dataPath + '/users.db', 'user:root,password:Password');
-  const stats = fs.statSync(path.join(dataPath, 'users.db'));
-}
 
 updater
   .on('update-available', m => ipcSend('update-available', m))
