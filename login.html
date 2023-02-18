@@ -57,7 +57,7 @@
     <script>
         let $ = require('jquery')
         let sqlite3 = require('sqlite3').verbose();
-        const db = new sqlite3.Database('./data/database.db');
+        const db = new sqlite3.Database(__dirname + '/data/database.db');
         const ipc = require('electron').ipcRenderer
         db.run("select * from users where username = " + document.getElementById('txtUsr').value + " and password = " + document.getElementById('txtPwd').value, function(err, row) {
             if (err) {

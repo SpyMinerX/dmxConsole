@@ -3,10 +3,10 @@ const path = require('path')
 const fs = require('fs');
 const updater = require('electron-simple-updater');
 let sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./data/database.db');
+const db = new sqlite3.Database(__dirname + '/data/database.db');
 db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER);');
-
-db.run("IF NOT EXISTS(SELECT * FROM users WHERE username = 'root') THEN INSERT INTO users (username, password, permission) VALUES ('root', 'Password', 10); END IF;");
+db.run('IF NOT EXISTS(SELECT * FROM users WHERE username = "root") THEN INSERT INTO users (username, password, permission) VALUES ("root", "Password", 10); END IF;');
+db.close();
 let window;
 
 updater.init({
