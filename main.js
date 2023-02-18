@@ -37,6 +37,9 @@ ipcMain.on('goto', (event, arg) => {
     window.loadFile('index.html');
   }
 });
+ipcMain.on('log', (event, arg) => {
+  console.log(arg);
+});
   
 
 app.on('ready', () => {

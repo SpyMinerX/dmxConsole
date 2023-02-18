@@ -49,7 +49,7 @@
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" id="txtPwd">
             </div>
-            <button class="btn btn-default" id="btn-login">Login</button>
+            <button class="btn btn-default" id="btn-login" onclick="check()">Login</button>
             <label  id="lbl"></label>
     </div>
         </div>
@@ -59,17 +59,23 @@
         let sqlite3 = require('sqlite3').verbose();
         const db = new sqlite3.Database(__dirname + '/data/database.db');
         const ipc = require('electron').ipcRenderer
-        db.run("select * from users where username = " + document.getElementById('txtUsr').value + " and password = " + document.getElementById('txtPwd').value, function(err, row) {
+        function check() {
+            ipc.send('log', 'checking login')
+        db.get("SELECT * FROM users;", (err, row) => {
+            ipc.send('log', 'getting login')
             if (err) {
-                console.log(err)
+                ipc.send('log', 'error: ' + err)
             } else {
-                console.log(row)
-                if(row != null){
+                ipc.send('log', 'row: ' + row)
+                if(row.username == $('#txtUsr').val() && row.password == $('#txtPwd').val()){
+                    ipc.send('log', 'login success')
+                    db.close();
                     ipc.send('goto', 'main')
                 } else {
                     $('#lbl').text('username or password is incorrect')
                 }
             }
         })
+    }
 </script>
 </html>
