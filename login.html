@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <title>Login Page</title>
+        <style>
+            body {
+                background-color: #000;
+            }
+            .login-box {
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+            }
+            input[type=”text”], input[type=”password”]{
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+            input[type=”submit”] {
+                background-color: #0088cc;
+                color: white;
+                padding: 12px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+            }
+            button:hover {
+                opacity: 0.8;
+            }
+            .container {
+                padding: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-box">
+          <h2>Login</h2>
+          <div class="container">
+            <br/>
+            <div class="form-group">
+                <label for="usr">UserName:</label>
+                <input type="text" class="form-control" id="txtUsr">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="txtPwd">
+            </div>
+            <button class="btn btn-default" id="btn-login">Login</button>
+            <label  id="lbl"></label>
+    </div>
+        </div>
+    </body>
+    <script>
+        let $ = require('jquery')
+        let fs = require('fs')
+        let filename = 'users.db'
+        const ipc = require('electron').ipcRenderer;
+
+        $('#btn-login').on('click', () => {
+         
+            if(fs.existsSync(filename)) {
+            let data = fs.readFileSync(filename, 'utf8').split('\n')
+            
+
+            data.forEach((authorities, index) => {
+                let [ user, password ] = authorities.split(',')
+                console.log(user)
+                console.log(password)
+                let [name1,usr]=user.split(':')
+                let [name2,pass]=password.split(':')
+
+                let txtUser=$('#txtUsr').val();
+                let txtPwd=$('#txtPwd').val();
+
+                if(txtUser==usr && txtPwd==pass){
+   ipc.sendSync('gotomenue', 'main')
+   }
+   else{
+       $('#lbl').text('username or password is incorrect')
+    }
+                
+                })
+            }
+
+        }) 
+</script>
+</html>
