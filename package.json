@@ -28,7 +28,7 @@
     "build": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "publish": "node_modules/.bin/publish",
-    "release": "npm run build && npm run publish"
+    "release": "npm version patch && npm run build && npm run publish"
   },
   "dependencies": {
     "electron-simple-updater": "^2.0.11",
