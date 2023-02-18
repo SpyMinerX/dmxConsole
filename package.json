@@ -1,7 +1,7 @@
 {
   "name": "dmxconsole",
-  "version": "1.0.1",
-  "description": "simple aplication for a diy kiosk dmx console",
+  "version": "1.0.3",
+  "description": "simple application for a diy kiosk dmx console",
   "main": "main.js",
   "repository": {
     "type": "git",
@@ -25,16 +25,38 @@
   },
   "scripts": {
     "start": "electron .",
-    "app:dir": "electron-builder --dir",
-    "app:dist": "electron-builder",
+    "build": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "publish": "node_modules/.bin/publish"
+    "publish": "node_modules/.bin/publish",
+    "release": "npm run build && npm run publish"
   },
   "dependencies": {
     "electron-simple-updater": "^2.0.11",
     "electron-squirrel-startup": "^1.0.0"
   },
+  "build": {
+    "appId": "spyminer.dmxconsole",
+    "files": [
+      "!publisher.json",
+      "!README.md",
+      "!updates.json"
+    ],
+    "linux": {
+      "category": "Development",
+      "publish": false,
+      "target": "AppImage"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": "squirrel"
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/build/icon.ico"
+    }
+  },
   "updater": {
-    "url": "http://engelbrecht.pro/LandS/dmxconsole/updates/update.json"
+    "url": "http://engelbrecht.pro/LandS/dmxconsole/updates/{platform}-{arch}-{channel}.json"
   }
 }
