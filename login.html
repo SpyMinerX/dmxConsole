@@ -57,7 +57,8 @@
     <script>
         let $ = require('jquery')
         let fs = require('fs')
-        let filename = 'users.db'
+        let path = require('path')
+        let filename = path.join(__dirname, '/data/users.db');
         const ipc = require('electron').ipcRenderer;
 
         $('#btn-login').on('click', () => {
@@ -77,12 +78,10 @@
                 let txtPwd=$('#txtPwd').val();
 
                 if(txtUser==usr && txtPwd==pass){
-   ipc.sendSync('gotomenue', 'main')
-   }
-   else{
-       $('#lbl').text('username or password is incorrect')
-    }
-                
+                    ipc.sendSync('gotomenue', 'main')
+                } else {
+                    $('#lbl').text('username or password is incorrect')
+                }
                 })
             }
 
