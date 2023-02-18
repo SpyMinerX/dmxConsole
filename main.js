@@ -1,34 +1,44 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
-const updater = require('src/index');
+const updater = require('electron-simple-updater');
 
-updater.init('https://www.engelbrecht.pro/LandS/dmxconsole/updates.json');
+let loadingWindow;
 
+updater.init({
+  checkUpdateOnStart: true,
+  autoDownload: true,
+  logger: {
+    info(...args) { ipcSend('update-log', 'info', ...args); },
+    warn(...args) { ipcSend('update-log', 'warn', ...args); },
+  },
+});
 
-function createWindow () {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+updater
+  .on('update-available', m => ipcSend('update-available', m))
+  .on('update-downloading', () => ipcSend('update-downloading'))
+  .on('update-downloaded', () => ipcSend('update-downloaded'));
+
+ipcMain.handle('getBuild', () => updater.buildId);
+ipcMain.handle('getVersion', () => updater.version);
+ipcMain.handle('checkForUpdates', () => { updater.checkForUpdates(); });
+ipcMain.handle('downloadUpdate', () => { updater.downloadUpdate(); });
+ipcMain.handle('quitAndInstall', () => { updater.quitAndInstall(); });
+ipcMain.handle('setOption', (_, opt, val) => { updater.setOptions(opt, val); });
+
+app.on('ready', () => {
+  loadingWindow = new BrowserWindow({
+    width: 640,
+    height: 480,
+    autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
 
-  win.loadFile('index.html')
+  loadingWindow.loadFile('index.html');
+});
+
+function ipcSend(event, ...args) {
+  loadingWindow?.webContents.send('updater-event', event, ...args);
 }
-
-app.whenReady().then(() => {
-  createWindow()
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-  })
-})
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
