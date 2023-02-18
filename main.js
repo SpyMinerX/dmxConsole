@@ -13,15 +13,15 @@ updater.init({
   },
 });
 
-try {
-  // try reading the file 
-  const stats = fs.statSync(path.join(app.getPath('data'), 'users.db'));
+var dataPath = __dirname + '/data';
+
+if (fs.existsSync(dataPath)) {
+  const stats = fs.statSync(path.join(dataPath, 'users.db'));
 }
-catch (error) {
-  fs.writeFileSync(
-    path.join(app.getPath('data'), 'users.db'),
-      'user:root,password:Password'
-  );
+else {
+  fs.mkdirSync(dataPath);
+  fs.writeFileSync(dataPath + '/users.db', 'user:root,password:Password');
+  const stats = fs.statSync(path.join(dataPath, 'users.db'));
 }
 
 updater
