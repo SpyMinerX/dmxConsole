@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
+const fs = require('fs');
 const updater = require('electron-simple-updater');
 let window;
 
@@ -11,6 +12,17 @@ updater.init({
     warn(...args) { ipcSend('update-log', 'warn', ...args); },
   },
 });
+
+try {
+  // try reading the file 
+  const stats = fs.statSync(path.join(app.getPath('data'), 'users.db'));
+}
+catch (error) {
+  fs.writeFileSync(
+    path.join(app.getPath('data'), 'users.db'),
+      'user:root,password:Password'
+  );
+}
 
 updater
   .on('update-available', m => ipcSend('update-available', m))
