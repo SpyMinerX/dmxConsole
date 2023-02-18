@@ -1,0 +1,12 @@
+{
+    "transport": {
+      "module": "ftp",
+      "host": "engelbrecht.pro",
+      "port": 21,
+      "user": "SpyMiner_dmxconsole",
+      "password": "88oJaDv0oIfuxdB5",
+      "remotePath": "/updates",
+      "remoteUrl": "https://engelbrecht.pro/LandS/dmxconsole/updates"
+    }, 
+    "metaFileUrl": "https://engelbrecht.pro/LandS/dmxconsole/updates/update.json"
+  }
