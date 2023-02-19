@@ -60,17 +60,12 @@
         const db = new sqlite3.Database(__dirname + '/data/database.db');
         const ipc = require('electron').ipcRenderer
         function check() {
-            ipc.send('log', 'checking login')
         db.get("SELECT * FROM users;", (err, row) => {
-            ipc.send('log', 'getting login')
             if (err) {
-                ipc.send('log', 'error: ' + err)
             } else {
-                ipc.send('log', 'row: ' + row)
                 if(row.username == $('#txtUsr').val() && row.password == $('#txtPwd').val()){
-                    ipc.send('log', 'login success')
                     db.close();
-                    ipc.send('goto', 'main')
+                    ipc.send('goto', 'menu')
                 } else {
                     $('#lbl').text('username or password is incorrect')
                 }

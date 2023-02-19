@@ -32,10 +32,15 @@ ipcMain.handle('downloadUpdate', () => { updater.downloadUpdate(); });
 ipcMain.handle('quitAndInstall', () => { updater.quitAndInstall(); });
 ipcMain.handle('setOption', (_, opt, val) => { updater.setOptions(opt, val); });
 ipcMain.on('goto', (event, arg) => {
-  if(arg=='main')
-  {
-    window.loadFile('index.html');
-  }
+  switch (arg) {
+    case 'menu': window.loadFile('menu.html'); break;
+    case 'createShow': window.loadFile('createShow.html'); break;
+    case 'editShow': window.loadFile('editShow.html'); break;
+    case 'manageShows': window.loadFile('manageShows.html'); break;
+    case 'simpleConsole': window.loadFile('simpleConsole.html'); break;
+    case 'userManagement': window.loadFile('userManagement.html'); break;
+    case 'update': window.loadFile('update.html'); break;
+}
 });
 ipcMain.on('log', (event, arg) => {
   console.log(arg);
