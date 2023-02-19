@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Buttons</title>
+        <style>
+            body {
+                background-color: #000;
+            } 
+            button {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+    </head>
+<body>
+    <button id="createShow">Create Show</button>
+    <button id="editShow">Edit Show</button>
+    <button id="manageShows">Manage Shows</button>
+    <button id="simpleConsole" >Simple Console</button>
+    <button id="userManagment">User Managment</button>
+    <button id="update">Check for Updates</button>
+</body>
+<script>
+    let $ = require('jquery')
+    let ipc = require('electron').ipcRenderer
+
+    $('button').click(function() {
+        ipc.send('goto', $(this).attr('id'));
+    })
+</script>
+</html>
