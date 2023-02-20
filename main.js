@@ -48,9 +48,10 @@ ipcMain.on('log', (event, arg) => {
   
 
 app.on('ready', () => {
-  window = new BrowserWindow({autoHideMenuBar: true, fullscreen: true, resizable: false, webPreferences: {nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}});
-  window.maximize();
+  window = new BrowserWindow({fullscreen: true, resizable: false, webPreferences: {nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}});
   window.loadFile('loading.html');
+  window.maximize();
+  window.removeMenu();
   setTimeout(() => window.loadFile('login.html'), 3000);
 });
 
