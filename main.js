@@ -9,6 +9,8 @@ db.run('INSERT INTO users (username, password, permission) SELECT ?, ?, ? WHERE 
 db.close();
 let window;
 
+const Devmode = true;
+
 updater.init({
   checkUpdateOnStart: true,
   autoDownload: true,
@@ -48,10 +50,13 @@ ipcMain.on('log', (event, arg) => {
   
 
 app.on('ready', () => {
-  window = new BrowserWindow({fullscreen: true, resizable: false, webPreferences: {nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}});
+  window = new BrowserWindow({autoHideMenuBar: true, fullscreen: true, resizable: false, webPreferences: {nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}});
   window.loadFile('loading.html');
   window.maximize();
-  window.removeMenu();
+  if (Devmode == false) {
+    window.removeMenu();
+  }	
+
   setTimeout(() => window.loadFile('login.html'), 3000);
 });
 
