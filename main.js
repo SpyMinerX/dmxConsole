@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const fs = require('fs');
 const updater = require('electron-simple-updater');
+const { platform } = require('os');
 let sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(__dirname + '/data/database.db');
 db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER);');
@@ -56,6 +57,12 @@ app.on('ready', () => {
   if (Devmode == false) {
     window.removeMenu();
   }	
+  //set the icon acording to the platform the app is running on
+  if (platform() == 'win32') {
+    window.setIcon(__dirname + '/logo.ico');
+  } else if (platform() == 'linux') {
+    window.setIcon(__dirname + '/logo.png');
+  }
 
   setTimeout(() => window.loadFile('login.html'), 3000);
 });

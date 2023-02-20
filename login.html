@@ -15,6 +15,7 @@
                 font-size: 30px;
                 color: white;
                 text-align: center;
+                user-select: none;
             }
             .topbar {
                 background-color: #3e3e42;
@@ -25,6 +26,7 @@
                 left: 0;
                 z-index: 100;
                 animation: topbarfadein 400ms;
+                user-select: none;
             }
             @keyframes topbarfadein {
                 from {
@@ -116,6 +118,7 @@
                 font-weight: 600;
                 cursor: pointer;
                 transition: 0.2s;
+                user-select: none;
             }
             button:hover {
                 opacity: 0.8;
@@ -126,6 +129,24 @@
             #lbl {
                 color: red;
                 font-size: 12px;
+                user-select: none;
+            }
+            .fotter {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 15px;
+                background-color: #3e3e42;
+                color: white;
+                text-align: center;
+                font-size: 9px;
+                padding-top: 5px;
+                opacity: 0;
+                transition: 250ms;
+            }
+            .fotter:hover {
+                opacity: 1;
             }
         </style>
     </head>
@@ -151,6 +172,7 @@
             <label  id="lbl"></label>
     </div>
         </div>
+        <div class="fotter">(C) 2023 SpyMiner. All rights reserved.</div>
     </body>
     <script>
         //clock script
