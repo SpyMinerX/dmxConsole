@@ -64,6 +64,8 @@ app.on('ready', () => {
     window.setIcon(__dirname + '/logo.png');
   }
 
+  window.setTitle('DMX Console - Initializing...');
+
   setTimeout(() => window.loadFile('login.html'), 3000);
 });
 
