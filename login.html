@@ -227,6 +227,8 @@
     const logindiv = document.getElementById('login-box')
     const button = document.getElementById('btn-login')
     const checkmark = document.getElementById('btn-checkmark')
+    const txtusr = document.getElementById('txtUsr')
+    const txtpwd = document.getElementById('txtPwd')
     const ipc = require('electron').ipcRenderer
     function check() {
         db.get("SELECT * FROM users;", (err, row) => {
@@ -236,6 +238,7 @@
                     db.close();
                     // my animation code is a mess so if u need to add shit do it below this comment AND FORMAT UR CODE
                     // ctrl + shift + p > format document 
+
 
                     button.style.backgroundColor = '#00ff00';
                     button.innerHTML = '<div id="btn-checkmark"></div';
