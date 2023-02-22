@@ -1,31 +1,127 @@
 <html>
-    <head>
-        <title>Buttons</title>
-        <style>
-            body {
-                background-color: #000;
-            } 
-            button {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
+
+<head>
+    <title>DMX Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Poppins&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: poppins;
+        }
+
+        button {
+            background-color: #3e3e42;
+            color: white;
+            font-size: 20px;
+            font-family: poppins;
+            border: none;
+            margin-left: 0px;
+            margin-top: 5px;
+            padding: 10px;
+            transition: 250ms;
+            width: 100%;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #252526;
+        }
+
+        .topbar {
+            background-color: #3e3e42;
+            height: 60px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .topbarlogo {
+            height: 50px;
+            width: 50px;
+            position: fixed;
+            top: 5;
+            left: 5;
+            z-index: 100;
+            background-image: url(logo.png);
+            background-size: cover;
+        }
+
+        .topbarlogotext {
+            height: 50px;
+
+            position: fixed;
+            top: 7;
+            left: 60;
+            z-index: 100;
+            color: white;
+            font-size: 30px;
+        }
+
+        .topbartime {
+            height: 50px;
+
+            position: fixed;
+            top: 11;
+            right: 10;
+            z-index: 100;
+            color: white;
+            font-size: 25px;
+        }
+
+        .menubar {
+            padding-top: 70px;
+            height: 100%;
+            width: 30%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            background-color: #2d2d30;
+            animation: slideinfromside 300ms;
+
+        }
+
+        @keyframes slideinfromside {
+            from {
+                transform: translateX(-100%);
             }
-        </style>
-    </head>
+
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
 <body>
-    <button id="createShow">Create Show</button>
-    <button id="editShow">Edit Show</button>
-    <button id="manageShows">Manage Shows</button>
-    <button id="simpleConsole" >Simple Console</button>
-    <button id="userManagment">User Managment</button>
-    <button id="update">Check for Updates</button>
+    <div class="topbar">
+        <div class="topbarlogo"></div>
+        <div class="topbarlogotext">DMX Console</div>
+        <div class="topbartime">Initializing</div>
+    </div>
+    <div class="menubar">
+        <button id="createShow">Create Show</button>
+        <button id="editShow">Edit Show</button>
+        <button id="manageShows">Manage Shows</button>
+        <button id="simpleConsole">Simple Console</button>
+        <button id="userManagment">User Managment</button>
+        <button id="update">Check for Updates</button>
+    </div>
 </body>
+<script src="clockscript.js">  </script>
 <script>
     let $ = require('jquery')
     let ipc = require('electron').ipcRenderer
 
-    $('button').click(function() {
+    $('button').click(function () {
         ipc.send('goto', $(this).attr('id'));
     })
 </script>
+
 </html>

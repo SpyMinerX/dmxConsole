@@ -1,6 +1,6 @@
 {
   "name": "dmxconsole",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "simple application for a diy kiosk dmx console",
   "main": "main.js",
   "repository": {
