@@ -1,45 +1,24 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs-extra");
-const updater = require("electron-simple-updater");
 const { platform } = require("os");
 let sqlite3 = require("sqlite3").verbose();
+
+let currentUser = null;
 let window;
 
 const Devmode = true;
 
-updater.init({
-  checkUpdateOnStart: true,
-  autoDownload: true,
-  logger: {
-    info(...args) {
-      ipcSend("update-log", "info", ...args);
-    },
-    warn(...args) {
-      ipcSend("update-log", "warn", ...args);
-    },
-  },
+ipcMain.on("loginUser", (event, arg) => {
+  currentUser = arg;
+});
+ipcMain.on("logoutUser", (event, arg) => {
+  currentUser = null;
+});
+ipcMain.on("getCurrentUser", (event, arg) => {
+  event.returnValue = currentUser;
 });
 
-updater
-  .on("update-available", (m) => ipcSend("update-available", m))
-  .on("update-downloading", () => ipcSend("update-downloading"))
-  .on("update-downloaded", () => ipcSend("update-downloaded"));
-
-ipcMain.handle("getBuild", () => updater.buildId);
-ipcMain.handle("getVersion", () => updater.version);
-ipcMain.handle("checkForUpdates", () => {
-  updater.checkForUpdates();
-});
-ipcMain.handle("downloadUpdate", () => {
-  updater.downloadUpdate();
-});
-ipcMain.handle("quitAndInstall", () => {
-  updater.quitAndInstall();
-});
-ipcMain.handle("setOption", (_, opt, val) => {
-  updater.setOptions(opt, val);
-});
 ipcMain.on("goto", (event, arg) => {
   switch (arg) {
     case "menu":
@@ -71,20 +50,20 @@ ipcMain.on("log", (event, arg) => {
 
 app.on("ready", () => {
   fs.ensureFile(__dirname + "/data/database.db")
-  .then(() => {
-    const db = new sqlite3.Database(__dirname + "/data/database.db");
-    db.run(
-      "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER);"
-    );
-    db.run(
-      "INSERT INTO users (username, password, permission) SELECT ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)",
-      ["root", "Password", 10, "root"]
-    );
-    db.close();
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+    .then(() => {
+      const db = new sqlite3.Database(__dirname + "/data/database.db");
+      db.run(
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, permission INTEGER);"
+      );
+      db.run(
+        "INSERT INTO users (username, password, permission) SELECT ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)",
+        ["root", "Password", 10, "root"]
+      );
+      db.close();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   window = new BrowserWindow({
     autoHideMenuBar: true,
     fullscreen: true,

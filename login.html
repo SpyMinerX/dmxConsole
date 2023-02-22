@@ -236,8 +236,9 @@
             } else {
                 if (row.username == $('#txtUsr').val() && row.password == $('#txtPwd').val()) {
                     db.close();
+                    ipc.send('login', row.username);
                     // my animation code is a mess so if u need to add shit do it below this comment AND FORMAT UR CODE
-                    // ctrl + shift + p > format document NEVER!!!!!
+                    // ctrl + shift + p > format document !!!!!NEVER!!!!!
 
 
                     button.style.backgroundColor = '#00ff00';
