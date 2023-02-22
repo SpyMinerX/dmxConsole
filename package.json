@@ -27,6 +27,7 @@
     "start": "electron .",
     "build": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
+    "snap": "electron-builder --linux snap",
     "publish": "node_modules/.bin/publish",
     "release": "git commit -a -m \"auto commit\" &&npm version patch && npm run build && npm run publish"
   },
