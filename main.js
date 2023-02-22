@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, screen} = require("electron");
 const path = require("path");
 const fs = require("fs-extra");
 const { platform } = require("os");
+const shell = require('shelljs')
 let sqlite3 = require("sqlite3").verbose();
 
 let currentUser = null;
@@ -42,6 +43,9 @@ ipcMain.on("goto", (event, arg) => {
     case "update":
       window.loadFile("update.html");
       break;
+      case "openQLC":
+        shell.exec("bash ./startQLC.sh");
+        break;
   }
 });
 ipcMain.on("log", (event, arg) => {
@@ -66,6 +70,8 @@ app.on("ready", () => {
     });
   window = new BrowserWindow({
     autoHideMenuBar: true,
+    width: screen.getPrimaryDisplay().size.width,
+    height: screen.getPrimaryDisplay().size.height,
     fullscreen: true,
     resizable: false,
     webPreferences: {
